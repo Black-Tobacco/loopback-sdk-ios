@@ -8,26 +8,37 @@
 
 import Foundation
 
+// Source: http://stackoverflow.com/a/24045523/1244184
+extension String {
+    subscript ( r: Range<Int> ) -> String {
+        get {
+            let subStart = advance( self.startIndex, r.startIndex, self.endIndex )
+            let subEnd = advance( subStart, r.endIndex - r.startIndex, self.endIndex )
+            return self.substringWithRange( Range( start: subStart, end: subEnd ) )
+        }
+    }
+    
+    func substring( from: Int ) -> String {
+        let end = countElements( self )
+        return self[from..<end]
+    }
+    
+    func substring( from: Int, length: Int ) -> String {
+        let end = from + length
+        return self[from..<end]
+    }
+}
+
+extension Dictionary {
+    mutating func update( other:Dictionary ) {
+        for( key,value ) in other {
+            self.updateValue( value, forKey:key )
+        }
+    }
+}
+
+
 class LBModel: SLObject, Printable {
-
-    override var description: String {
-        let className = class_getName( object_getClass( self ) )
-        let selfAsDict = toDictionary()
-
-        return "<\( className ), \( selfAsDict )>"
-    }
-
-    var LBModelSaveSuccessBlock:() -> () = {
-        () -> Void in
-    }
-
-    var LBModelDestroySuccessBlock:() -> () = {
-        () -> Void in
-    }
-
-    var SLFailureBlock:( NSError! ) -> () = {
-        ( NSError ) -> Void in
-    }
 
     /** All Models have a numerical `id` field. */
     private( set ) var id:AnyObject?
@@ -41,6 +52,19 @@ class LBModel: SLObject, Printable {
         set( Tv ) {
             overflow[Tk] = Tv
         }
+    }
+    
+    override var description: String {
+        let className = class_getName( object_getClass( self ) )
+        let selfAsDict = toDictionary()
+        
+        return "<\( className ), \( selfAsDict )>"
+    }
+
+    override init!(repository: SLRepository!, parameters: Dictionary<NSObject,AnyObject>! ) {
+        super.init()
+
+        overflow = Dictionary()
     }
 
     func setId(  idValue:AnyObject ) {
@@ -88,27 +112,6 @@ class LBModel: SLObject, Printable {
     }
 }
 
-// Source: http://stackoverflow.com/a/24045523/1244184
-extension String {
-    subscript ( r: Range<Int> ) -> String {
-        get {
-            let subStart = advance( self.startIndex, r.startIndex, self.endIndex )
-            let subEnd = advance( subStart, r.endIndex - r.startIndex, self.endIndex )
-            return self.substringWithRange( Range( start: subStart, end: subEnd ) )
-        }
-    }
-
-    func substring( from: Int ) -> String {
-        let end = countElements( self )
-        return self[from..<end]
-    }
-
-    func substring( from: Int, length: Int ) -> String {
-        let end = from + length
-        return self[from..<end]
-    }
-}
-
 
 class LBModelRepository : SLRepository {
 
@@ -131,4 +134,63 @@ class LBModelRepository : SLRepository {
             self.modelClass = object_getClass( LBModel )
         }
     }
+
+    func contract() -> SLRESTContract {
+        var contract = SLRESTContract()
+
+        contract.addItem( SLRESTContractItem( pattern: "/\( className )", verb:"POST" ), forMethod: "\( className ).prototype.create" )
+        contract.addItem( SLRESTContractItem( pattern: "/\( className )/:id", verb:"PUT" ), forMethod: "\( className ).prototype.save" )
+        contract.addItem( SLRESTContractItem( pattern: "/\( className )/:id", verb:"DELETE" ), forMethod: "\( className ).prototype.remove" )
+        contract.addItem( SLRESTContractItem( pattern: "/\( className )/:id", verb:"GET" ), forMethod: "\( className ).findById" )
+        contract.addItem( SLRESTContractItem( pattern: "/\( className )", verb:"GET" ), forMethod: "\( className ).all" )
+
+        return contract;
+    }
+
+    func modelWithDictionary( dictionary:NSDictionary ) -> LBModel {
+        var model:LBModel = LBModel( repository:self, parameters:dictionary )
+
+        var overflowDictionary:NSMutableDictionary! = ( model.overflow as NSDictionary ).mutableCopy() as NSMutableDictionary
+        overflowDictionary.addEntriesFromDictionary( dictionary )
+
+        let overflowReplacementDictionary = overflowDictionary as Dictionary
+        model.overflow = overflowReplacementDictionary as Dictionary<String, AnyObject>
+
+
+        dictionary.enumerateKeysAndObjectsUsingBlock { ( key, obj, stop ) -> Void in
+            var setter:Selector = NSSelectorFromString( key as String )
+
+            if model.respondsToSelector( setter ) {
+
+                // SURELY there is a better way... ?.... :\ :| :~(
+                var timer = NSTimer.scheduledTimerWithTimeInterval( 0.00001, target: model, selector:setter, userInfo: obj, repeats: false )
+                let mainLoop = NSRunLoop.mainRunLoop()
+
+                mainLoop.addTimer( timer, forMode: NSDefaultRunLoopMode )
+            }
+        }
+
+        return model
+    }
+
+    func findById( id:AnyObject!, success:( LBModel ) -> (), failure: ( NSError! ) -> () ) {
+
+        invokeStaticMethod( "findById", parameters: [ "id": id ], success: { [unowned self]( value ) -> Void in
+            assert( value is NSDictionary, "Received non-Dictionary: \( value )" )
+            success( self.modelWithDictionary( value as NSDictionary ) )
+
+        }, failure:failure )
+    }
 }
+
+
+
+
+
+
+
+
+
+
+
+
