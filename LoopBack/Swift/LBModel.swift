@@ -29,15 +29,6 @@ extension String {
     }
 }
 
-extension Dictionary {
-    mutating func update( other:Dictionary ) {
-        for( key,value ) in other {
-            self.updateValue( value, forKey:key )
-        }
-    }
-}
-
-
 class LBModel: SLObject, Printable {
 
     /** All Models have a numerical `id` field. */
