@@ -23,4 +23,4 @@
 #import "LoopBack/SLRemotingUtils.h"
 #import "LoopBack/SLRESTAdapter.h"
 #import "LoopBack/SLRESTContract.h"
-#import "LoopBack/UIImageView+SLAFNetworking.h"
+
