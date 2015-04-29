@@ -133,6 +133,12 @@
 		B3DFA5B017970AC700F656D7 /* LoopBack-Prefix.pch in Headers */ = {isa = PBXBuildFile; fileRef = B3D220FE17722AE800B7CB63 /* LoopBack-Prefix.pch */; };
 		E44CB6DA1AF4413B00769433 /* LBModelSubclassingTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E44CB6D91AF4413B00769433 /* LBModelSubclassingTests.swift */; };
 		E45123371AE0422A00F0DB30 /* SLStreamParam.m in Sources */ = {isa = PBXBuildFile; fileRef = 8973753D1AB2A60A00FB31A2 /* SLStreamParam.m */; };
+		E470B8721AF46A36004F6DF2 /* SLAFHTTPRequestOperationLogger.h in Headers */ = {isa = PBXBuildFile; fileRef = E470B8701AF46A36004F6DF2 /* SLAFHTTPRequestOperationLogger.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		E470B8731AF46A36004F6DF2 /* SLAFHTTPRequestOperationLogger.m in Sources */ = {isa = PBXBuildFile; fileRef = E470B8711AF46A36004F6DF2 /* SLAFHTTPRequestOperationLogger.m */; };
+		E470B8741AF46A46004F6DF2 /* SLAFHTTPRequestOperationLogger.h in Headers */ = {isa = PBXBuildFile; fileRef = E470B8701AF46A36004F6DF2 /* SLAFHTTPRequestOperationLogger.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		E470B8751AF46A48004F6DF2 /* SLAFHTTPRequestOperationLogger.h in Headers */ = {isa = PBXBuildFile; fileRef = E470B8701AF46A36004F6DF2 /* SLAFHTTPRequestOperationLogger.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		E470B8761AF46A4D004F6DF2 /* SLAFHTTPRequestOperationLogger.m in Sources */ = {isa = PBXBuildFile; fileRef = E470B8711AF46A36004F6DF2 /* SLAFHTTPRequestOperationLogger.m */; };
+		E470B8771AF46A4E004F6DF2 /* SLAFHTTPRequestOperationLogger.m in Sources */ = {isa = PBXBuildFile; fileRef = E470B8711AF46A36004F6DF2 /* SLAFHTTPRequestOperationLogger.m */; };
 		E486D9721AF41DF8003DC70D /* LoopBackSwift.h in Headers */ = {isa = PBXBuildFile; fileRef = E486D9711AF41DF8003DC70D /* LoopBackSwift.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		E486D9781AF41DF8003DC70D /* LoopBackSwift.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E486D96D1AF41DF8003DC70D /* LoopBackSwift.framework */; };
 		E486D9861AF41E36003DC70D /* SLAFHTTPClient.m in Sources */ = {isa = PBXBuildFile; fileRef = 47C48B761962120E00995044 /* SLAFHTTPClient.m */; };
@@ -382,6 +388,8 @@
 		E468E0121AF17BAC00BFDD26 /* LBUser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = LBUser.swift; path = ../LoopBack/Swift/LBUser.swift; sourceTree = "<group>"; };
 		E468E0131AF17BAC00BFDD26 /* LoopBack.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = LoopBack.swift; path = ../LoopBack/Swift/LoopBack.swift; sourceTree = "<group>"; };
 		E468E0141AF17BAC00BFDD26 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; name = README.md; path = ../LoopBack/Swift/README.md; sourceTree = "<group>"; };
+		E470B8701AF46A36004F6DF2 /* SLAFHTTPRequestOperationLogger.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SLAFHTTPRequestOperationLogger.h; sourceTree = "<group>"; };
+		E470B8711AF46A36004F6DF2 /* SLAFHTTPRequestOperationLogger.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SLAFHTTPRequestOperationLogger.m; sourceTree = "<group>"; };
 		E486D96D1AF41DF8003DC70D /* LoopBackSwift.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = LoopBackSwift.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		E486D9701AF41DF8003DC70D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		E486D9711AF41DF8003DC70D /* LoopBackSwift.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = LoopBackSwift.h; sourceTree = "<group>"; };
@@ -468,6 +476,8 @@
 		47C48B741962120E00995044 /* SLAFNetworking */ = {
 			isa = PBXGroup;
 			children = (
+				E470B8701AF46A36004F6DF2 /* SLAFHTTPRequestOperationLogger.h */,
+				E470B8711AF46A36004F6DF2 /* SLAFHTTPRequestOperationLogger.m */,
 				47C48B751962120E00995044 /* SLAFHTTPClient.h */,
 				47C48B761962120E00995044 /* SLAFHTTPClient.m */,
 				47C48B771962120E00995044 /* SLAFHTTPRequestOperation.h */,
@@ -823,6 +833,7 @@
 				47C48BAA1962120E00995044 /* SLObject.h in Headers */,
 				47C48BA61962120E00995044 /* UIImageView+SLAFNetworking.h in Headers */,
 				47C48B9B1962120E00995044 /* SLAFJSONRequestOperation.h in Headers */,
+				E470B8721AF46A36004F6DF2 /* SLAFHTTPRequestOperationLogger.h in Headers */,
 				47C48B971962120E00995044 /* SLAFHTTPRequestOperation.h in Headers */,
 				47C48BB21962120E00995044 /* SLRESTContract.h in Headers */,
 				47AD031418491E2000F724C8 /* LBInstallation.h in Headers */,
@@ -840,6 +851,7 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E470B8751AF46A48004F6DF2 /* SLAFHTTPRequestOperationLogger.h in Headers */,
 				E486D9B11AF422C7003DC70D /* SLRemoting.h in Headers */,
 				E486D9B31AF422D1003DC70D /* SLRESTContract.h in Headers */,
 				E486D9721AF41DF8003DC70D /* LoopBackSwift.h in Headers */,
@@ -871,6 +883,7 @@
 				E4C9BC521AD6FB7F00D70046 /* SLAFJSONRequestOperation.h in Headers */,
 				E4C9BC7B1AD6FC6100D70046 /* LBFile.h in Headers */,
 				E4C9BC6F1AD6FC0F00D70046 /* LoopBack-Prefix.pch in Headers */,
+				E470B8741AF46A46004F6DF2 /* SLAFHTTPRequestOperationLogger.h in Headers */,
 				E4C9BC641AD6FBD700D70046 /* SLRemoting.h in Headers */,
 				E4C9BC4C1AD6FB4800D70046 /* SLAFHTTPClient.h in Headers */,
 				E4C9BC541AD6FB8900D70046 /* SLAFNetworkActivityIndicatorManager.h in Headers */,
@@ -1221,6 +1234,7 @@
 				47C48BA71962120E00995044 /* UIImageView+SLAFNetworking.m in Sources */,
 				47C48B9A1962120E00995044 /* SLAFImageRequestOperation.m in Sources */,
 				47C48B981962120E00995044 /* SLAFHTTPRequestOperation.m in Sources */,
+				E470B8731AF46A36004F6DF2 /* SLAFHTTPRequestOperationLogger.m in Sources */,
 				47C48BA11962120E00995044 /* SLAFPropertyListRequestOperation.m in Sources */,
 				47C48BB11962120E00995044 /* SLRESTAdapter.m in Sources */,
 				0B6DCCA618806F2E00F7E57A /* LBUser.m in Sources */,
@@ -1277,6 +1291,7 @@
 				E486D98C1AF41E68003DC70D /* SLAFPropertyListRequestOperation.m in Sources */,
 				E486D98A1AF41E61003DC70D /* SLAFJSONRequestOperation.m in Sources */,
 				E486D9A81AF4223F003DC70D /* LBFile.swift in Sources */,
+				E470B8771AF46A4E004F6DF2 /* SLAFHTTPRequestOperationLogger.m in Sources */,
 				E486D9A71AF4223F003DC70D /* LBContainer.swift in Sources */,
 				E486D9AD1AF4223F003DC70D /* LBUser.swift in Sources */,
 				E486D9A61AF4223F003DC70D /* LBAccessToken.swift in Sources */,
@@ -1310,6 +1325,7 @@
 				E4C9BC681AD6FBE700D70046 /* SLRESTAdapter.m in Sources */,
 				E4C9BC661AD6FBDF00D70046 /* SLRemotingUtils.m in Sources */,
 				E4C9BC601AD6FBC200D70046 /* SLAdapter.m in Sources */,
+				E470B8761AF46A4D004F6DF2 /* SLAFHTTPRequestOperationLogger.m in Sources */,
 				E4C9BC841AD7005E00D70046 /* LBInstallation.m in Sources */,
 				E4C9BC5A1AD6FBA700D70046 /* SLAFURLConnectionOperation.m in Sources */,
 				E4C9BC781AD6FC3100D70046 /* LBAccessToken.m in Sources */,

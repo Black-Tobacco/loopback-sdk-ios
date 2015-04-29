@@ -28,7 +28,10 @@ class LBModelSubclassingTests: XCTestCase {
     
     override func setUp() {
         super.setUp()
-                
+        
+//        SLAFHTTPRequestOperationLogger.sharedLogger().startLogging()
+//        SLAFHTTPRequestOperationLogger.sharedLogger().level = .AFLoggerLevelDebug
+        
         // Put setup code here. This method is called before the invocation of each test method in the class.
         let adapter:LBRESTAdapter = LBRESTAdapter(URL: NSURL(string: "http://localhost:3000")!)
         repository = adapter.repositoryWithClass(WidgetRepository.self) as! WidgetRepository
