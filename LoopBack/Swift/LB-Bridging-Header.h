@@ -15,6 +15,7 @@
 #import "LoopBack/SLAFImageRequestOperation.h"
 #import "LoopBack/SLAFJSONRequestOperation.h"
 #import "LoopBack/SLAFNetworkActivityIndicatorManager.h"
+#import "LoopBack/SLAFHTTPRequestOperationLogger.h"
 #import "LoopBack/SLAFPropertyListRequestOperation.h"
 #import "LoopBack/SLAFURLConnectionOperation.h"
 #import "LoopBack/SLAFXMLRequestOperation.h"
