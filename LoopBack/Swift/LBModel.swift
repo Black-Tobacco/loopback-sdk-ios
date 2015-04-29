@@ -8,34 +8,14 @@
 
 import Foundation
 
-// Source: http://stackoverflow.com/a/24045523/1244184
-extension String {
-    subscript ( r: Range<Int> ) -> String {
-        get {
-            let subStart = advance( self.startIndex, r.startIndex, self.endIndex )
-            let subEnd = advance( subStart, r.endIndex - r.startIndex, self.endIndex )
-            return self.substringWithRange( Range( start: subStart, end: subEnd ) )
-        }
-    }
-    
-    func substring( from: Int ) -> String {
-        let end = countElements( self )
-        return self[from..<end]
-    }
-    
-    func substring( from: Int, length: Int ) -> String {
-        let end = from + length
-        return self[from..<end]
-    }
-}
 
-class LBModel: SLObject, Printable {
+public class LBModel: SLObject, Printable {
 
     /** All Models have a numerical `id` field. */
-    private( set ) var id:AnyObject?
+    public private( set ) var id:AnyObject?
     private( set ) var overflow = Dictionary<String, AnyObject>()
 
-    subscript( Tk: String ) -> AnyObject! {
+    public subscript( Tk: String ) -> AnyObject! {
         get {
             return overflow[Tk]
         }
@@ -45,20 +25,25 @@ class LBModel: SLObject, Printable {
         }
     }
     
-    override var description: String {
+    override public var description: String {
         let className = class_getName( object_getClass( self ) )
         let selfAsDict = toDictionary()
         
         return "<\( className ), \( selfAsDict )>"
     }
-
-    override init!(repository: SLRepository!, parameters: Dictionary<NSObject,AnyObject>! ) {
-        super.init()
+    
+    required override public init!(repository: SLRepository!, parameters: Dictionary<NSObject,AnyObject>! ) {
+        super.init(repository: repository, parameters: parameters)
 
         overflow = Dictionary()
     }
 
-    func setId(  idValue:AnyObject ) {
+    override public func setValue(value: AnyObject?,
+        forUndefinedKey key: String) {
+            println("WARNING: setValue called for non KVO compliant key: \(key)")
+    }
+    
+    func setIdendifier(  idValue:AnyObject ) {
         self.id = idValue
     }
 
@@ -76,54 +61,55 @@ class LBModel: SLObject, Printable {
             let propertyName = NSString( CString: property_getName( property ), encoding: NSUTF8StringEncoding )
 
             if propertyName != nil {
-                if propertyName == "id" {
+                if propertyName == "id" || propertyName == "description" || propertyName == "overflow" {
                     continue
                 }
 
-                dict[propertyName!] = valueForKey( propertyName! )
+                dict[propertyName! as String] = valueForKey( propertyName! as String )
             }
         }
 
         return dict
     }
 
-    func save( success:() -> (), failure:( NSError! ) -> () ) {
+    public func save( success:() -> (), failure:( NSError! ) -> () ) {
         var methodToInvoke = id != nil ? "save": "create"
 
-        invokeMethod( methodToInvoke, parameters: toDictionary(), success: { [unowned self]( value ) -> Void in
+        invokeMethod( methodToInvoke, parameters: toDictionary() as [NSObject : AnyObject], success: { ( value ) -> Void in
             self.id = value["id"]
             success()
         }, failure: failure )
     }
 
-    func destroy( success:() -> (), failure:( NSError! ) -> () ) {
-        invokeMethod( "remove", parameters: toDictionary(), success: { [unowned self]( value ) -> Void in
+    public func destroy( success:() -> (), failure:( NSError! ) -> () ) {
+        invokeMethod( "remove", parameters: toDictionary() as [NSObject : AnyObject], success: { [unowned self]( value ) -> Void in
             success()
         }, failure: failure )
     }
 }
 
 
-class LBModelRepository : SLRepository {
-
-    var modelClass:AnyClass?
+public class LBModelRepository : SLRepository {
+    private var modelClass:LBModel.Type?
 
     override init() {
         super.init()
     }
 
-    override init!( className name: String! ) {
-        super.init( className:name )
-
-        var modelClassName:String = String.fromCString( class_getName( object_getClass( self ) ) )!
-        let strlenOfRepository = 10
-
-        modelClassName.substring( 0, length: countElements( modelClassName ) - strlenOfRepository )
-
-        self.modelClass = NSClassFromString( modelClassName );
+    public override init(className name: String!) {
+        super.init(className:name)
         if self.modelClass == nil {
-            self.modelClass = object_getClass( LBModel )
+            self.modelClass = LBModel.self
         }
+    }
+    
+    public init( className name: String!, modelClass: LBModel.Type ) {
+        super.init(className:name)
+        self.modelClass = modelClass
+    }
+    
+    public class func repository() -> LBModelRepository {
+        return LBModelRepository()
     }
 
     func contract() -> SLRESTContract {
@@ -138,39 +124,44 @@ class LBModelRepository : SLRepository {
         return contract;
     }
 
-    func modelWithDictionary( dictionary:NSDictionary ) -> LBModel {
-        var model:LBModel = LBModel( repository:self, parameters:dictionary )
+    public func modelWithDictionary( dictionary:NSDictionary ) -> LBModel {
+        var model:LBModel = self.modelClass!( repository:self, parameters:dictionary as Dictionary<NSObject, AnyObject> )
 
-        var overflowDictionary:NSMutableDictionary! = ( model.overflow as NSDictionary ).mutableCopy() as NSMutableDictionary
-        overflowDictionary.addEntriesFromDictionary( dictionary )
+        var overflowDictionary:NSMutableDictionary! = ( model.overflow as NSDictionary ).mutableCopy() as! NSMutableDictionary
+        overflowDictionary.addEntriesFromDictionary( dictionary as [NSObject : AnyObject] )
 
         let overflowReplacementDictionary = overflowDictionary as Dictionary
-        model.overflow = overflowReplacementDictionary as Dictionary<String, AnyObject>
+        model.overflow = overflowReplacementDictionary as! Dictionary<String, AnyObject>
 
+        for (key, value) in dictionary {
+            let keyName = key as! String
 
-        dictionary.enumerateKeysAndObjectsUsingBlock { ( key, obj, stop ) -> Void in
-            var setter:Selector = NSSelectorFromString( key as String )
-
-            if model.respondsToSelector( setter ) {
-
-                // SURELY there is a better way... ?.... :\ :| :~(
-                var timer = NSTimer.scheduledTimerWithTimeInterval( 0.00001, target: model, selector:setter, userInfo: obj, repeats: false )
-                let mainLoop = NSRunLoop.mainRunLoop()
-
-                mainLoop.addTimer( timer, forMode: NSDefaultRunLoopMode )
+            if model.respondsToSelector(NSSelectorFromString(keyName)) {
+                model.setValue(value, forKey: keyName)
             }
         }
-
         return model
     }
-
-    func findById( id:AnyObject!, success:( LBModel ) -> (), failure: ( NSError! ) -> () ) {
-
-        invokeStaticMethod( "findById", parameters: [ "id": id ], success: { [unowned self]( value ) -> Void in
+    
+    public func findById( id:AnyObject!, success:( LBModel ) -> (), failure: ( NSError! ) -> () ) {
+        invokeStaticMethod( "findById", parameters: [ "id": id ], success: { ( value ) -> Void in
             assert( value is NSDictionary, "Received non-Dictionary: \( value )" )
-            success( self.modelWithDictionary( value as NSDictionary ) )
-
-        }, failure:failure )
+            success( self.modelWithDictionary( value as! NSDictionary ) )
+            
+            }, failure:failure )
+    }
+    
+    public func findAll( success:( [LBModel] ) -> (), failure: ( NSError! ) -> () ) {
+        invokeStaticMethod( "all", parameters: [:], success: { ( value ) -> Void in
+            assert( value is [AnyObject], "Received non-Array: \( value )" )
+            let tmp:[AnyObject] = value as! [AnyObject]
+            let ret = tmp.map {
+                ( val ) -> LBModel in
+                return self.modelWithDictionary( val as! NSDictionary )
+            }
+            success(ret)
+            
+            }, failure:failure )
     }
 }
 
