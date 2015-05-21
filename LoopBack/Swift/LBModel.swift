@@ -136,7 +136,7 @@ public class LBModelRepository : SLRepository {
         for (key, value) in dictionary {
             let keyName = key as! String
 
-            if model.respondsToSelector(NSSelectorFromString(keyName)) {
+            if !(value is NSNull) && model.respondsToSelector(NSSelectorFromString(keyName)) {
                 model.setValue(value, forKey: keyName)
             }
         }
