@@ -164,6 +164,20 @@ public class LBModelRepository : SLRepository {
             
             }, failure:failure )
     }
+    
+    public func find(parameters:[String:AnyObject], success:( [LBModel] ) -> (), failure: ( NSError! ) -> () ) {
+        invokeStaticMethod( "all", parameters: parameters, success: { ( value ) -> Void in
+            assert( value is [AnyObject], "Received non-Array: \( value )" )
+            let tmp:[AnyObject] = value as! [AnyObject]
+            let ret = tmp.map {
+                ( val ) -> LBModel in
+                return self.modelWithDictionary( val as! NSDictionary )
+            }
+            success(ret)
+            
+            }, failure:failure )
+    }
+    
 }
 
 
