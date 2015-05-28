@@ -136,10 +136,16 @@ public class LBModelRepository : SLRepository {
         for (key, value) in dictionary {
             let keyName = key as! String
 
-            if !(value is NSNull) && model.respondsToSelector(NSSelectorFromString(keyName)) {
-                var attributeType = value.attributeType
-                model.setValue(value, forKey: keyName)
+            var attributeType = value.attributeType
+            
+           
+            if let p : AnyObject? = overflowDictionary.objectForKey(keyName) {
+                if !(value is NSNull) {
+                    
+                    model.setValue(value, forKey: keyName)
+                }
             }
+           
         }
         return model
     }
@@ -190,6 +196,19 @@ public class LBModelRepository : SLRepository {
                 success( self.modelWithDictionary( NSDictionary() ) )
             }
             
+            
+            }, failure:failure )
+    }
+    
+    public func findOne(parameters:[String:AnyObject], success:( LBModel ) -> (), failure: ( NSError! ) -> () ) {
+        invokeStaticMethod( "all", parameters: parameters, success: { ( value ) -> Void in
+            
+            
+            assert( value is [AnyObject], "Received non-Array: \( value )" )
+            let tmp:[AnyObject] = value as! [AnyObject]
+            let val:AnyObject = value[0]
+            
+            success( self.modelWithDictionary( val as! NSDictionary ) )
             
             }, failure:failure )
     }
