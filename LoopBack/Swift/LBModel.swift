@@ -136,9 +136,16 @@ public class LBModelRepository : SLRepository {
         for (key, value) in dictionary {
             let keyName = key as! String
 
-            if !(value is NSNull) && model.respondsToSelector(NSSelectorFromString(keyName)) {
-                model.setValue(value, forKey: keyName)
+            var attributeType = value.attributeType
+            
+           
+            if let p : AnyObject? = overflowDictionary.objectForKey(keyName) {
+                if !(value is NSNull) {
+                    
+                    model.setValue(value, forKey: keyName)
+                }
             }
+           
         }
         return model
     }
@@ -192,7 +199,6 @@ public class LBModelRepository : SLRepository {
             
             }, failure:failure )
     }
-    
 }
 
 
