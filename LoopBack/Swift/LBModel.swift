@@ -181,12 +181,15 @@ public class LBModelRepository : SLRepository {
     public func findOne(parameters:[String:AnyObject], success:( LBModel ) -> (), failure: ( NSError! ) -> () ) {
         invokeStaticMethod( "all", parameters: parameters, success: { ( value ) -> Void in
             
-            
             assert( value is [AnyObject], "Received non-Array: \( value )" )
             let tmp:[AnyObject] = value as! [AnyObject]
-            let val:AnyObject = value[0]
+            var val : AnyObject?
+            if value.count > 0 {
+                success( self.modelWithDictionary( value[0] as! NSDictionary ) )
+            } else {
+                success( self.modelWithDictionary( NSDictionary() ) )
+            }
             
-            success( self.modelWithDictionary( val as! NSDictionary ) )
             
             }, failure:failure )
     }
