@@ -31,6 +31,7 @@ public class LBUserRepository: LBModelRepository {
         let contract = super.contract()
         contract.addItem( SLRESTContractItem( pattern: "/\( className )/login?include=user", verb:"POST" ), forMethod: "\( className ).login" )
         contract.addItem( SLRESTContractItem( pattern: "/\( className )/logout", verb:"POST" ), forMethod: "\( className ).logout" )
+        contract.addItem( SLRESTContractItem( pattern: "/\( className )/reset", verb:"POST" ), forMethod: "\( className ).reset" )
         
         return contract
     }
@@ -65,6 +66,31 @@ public class LBUserRepository: LBModelRepository {
             }, failure:failure )
     }
     
+    func logout(success: () -> (), failure: ( NSError! ) -> () ) {
+        
+        invokeStaticMethod( "logout", parameters: nil, success: { (value) -> Void in
+            
+            
+            //assert( value is NSDictionary, "Received non-Dictionary: \( value )" )
+            let adapter = self.adapter as! LBRESTAdapter
+            adapter.accessToken = nil
+            self.currentUserId = nil
+            self.accessTokenRepository == nil
+            
+            success()
+            
+            }, failure:failure )
+    }
+    
+    func reset(email: String!, success: () -> (), failure: ( NSError! ) -> () ) {
+        
+        invokeStaticMethod( "reset", parameters: ["email":email], success: { (value) -> Void in
+            
+            success()
+            
+            }, failure:failure )
+    }
+
     public func userByLogin(#email:String, password: String, success: (LBUser) -> (), failure: ( NSError! ) -> () ) {
         login(email: email, password: password, success: { (token) -> () in
             self.findById(token.userId, success: { (user) -> () in
