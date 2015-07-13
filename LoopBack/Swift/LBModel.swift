@@ -40,7 +40,7 @@ public class LBModel: SLObject, Printable {
 
     override public func setValue(value: AnyObject?,
         forUndefinedKey key: String) {
-            println("WARNING: setValue called for non KVO compliant key: \(key)")
+            //println("WARNING: setValue called for non KVO compliant key: \(key)")
     }
     
     func setIdendifier(  idValue:AnyObject ) {
@@ -136,7 +136,7 @@ public class LBModelRepository : SLRepository {
         for (key, value) in dictionary {
             let keyName = key as! String
 
-            var attributeType = value.attributeType
+            //var attributeType = value.attributeType
             
            
             if let p : AnyObject? = overflowDictionary.objectForKey(keyName) {
@@ -206,9 +206,13 @@ public class LBModelRepository : SLRepository {
             
             assert( value is [AnyObject], "Received non-Array: \( value )" )
             let tmp:[AnyObject] = value as! [AnyObject]
-            let val:AnyObject = value[0]
+            var val : AnyObject?
+            if value.count > 0 {
+                success( self.modelWithDictionary( value[0] as! NSDictionary ) )
+            } else {
+                success( self.modelWithDictionary( NSDictionary() ) )
+            }
             
-            success( self.modelWithDictionary( val as! NSDictionary ) )
             
             }, failure:failure )
     }
