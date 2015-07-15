@@ -31,6 +31,7 @@ static id lastId = nil;
 + (id)defaultTestSuite {
     XCTestSuite *suite = [XCTestSuite testSuiteWithName:@"TestSuite for LBInstallation."];
     [suite addTest:[self testCaseWithSelector:@selector(testSingletonRepository)]];
+    [suite addTest:[self testCaseWithSelector:@selector(testTokenOk)]];
     [suite addTest:[self testCaseWithSelector:@selector(testRegister)]];
     [suite addTest:[self testCaseWithSelector:@selector(testFind)]];
     [suite addTest:[self testCaseWithSelector:@selector(testAll)]];
@@ -64,6 +65,12 @@ static id lastId = nil;
     XCTAssertEqual(r1, r2, @"LBInstallationRepository.repository is a singleton");
 }
 
+- (void)testTokenOk {
+    NSString* token = [LBInstallation deviceTokenWithData:self.testToken];
+    XCTAssertTrue([token isEqualToString:@"0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f"], @"Invalid token");
+}
+
+
 - (void)testRegister {
     ASYNC_TEST_START
     
@@ -76,7 +83,7 @@ static id lastId = nil;
                                         badge:@1
                                 subscriptions:nil
                                       success:^(LBInstallation *model) {
-                                          // NSLog(@"Completed with: %@", model._id);
+                                          NSLog(@"Completed with: %@", model._id);
                                           lastId = model._id;
                                           XCTAssertNotNil(model._id, @"Invalid id");
                                           ASYNC_TEST_SIGNAL

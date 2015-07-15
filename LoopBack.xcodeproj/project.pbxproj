@@ -174,6 +174,7 @@
 		E486D9B41AF422E2003DC70D /* SLRemotingUtils.h in Headers */ = {isa = PBXBuildFile; fileRef = 47C48B8F1962120E00995044 /* SLRemotingUtils.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		E486D9B71AF42350003DC70D /* LBModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E486D9B51AF42350003DC70D /* LBModelTests.swift */; };
 		E486D9B81AF42350003DC70D /* LBUserTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E486D9B61AF42350003DC70D /* LBUserTests.swift */; };
+		E49847581B5595AA009532E6 /* LBInstallationTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E49847571B5595AA009532E6 /* LBInstallationTests.swift */; };
 		E4C9BC341AD6F9C800D70046 /* LoopBackOSX.h in Headers */ = {isa = PBXBuildFile; fileRef = E4C9BC331AD6F9C800D70046 /* LoopBackOSX.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		E4C9BC3A1AD6F9C800D70046 /* LoopBack.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E4C9BC2F1AD6F9C800D70046 /* LoopBack.framework */; };
 		E4C9BC481AD6FAF400D70046 /* SLRESTAdapterNonRootTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 47C48BC61962123900995044 /* SLRESTAdapterNonRootTests.m */; };
@@ -397,6 +398,7 @@
 		E486D97D1AF41DF8003DC70D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		E486D9B51AF42350003DC70D /* LBModelTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LBModelTests.swift; sourceTree = "<group>"; };
 		E486D9B61AF42350003DC70D /* LBUserTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LBUserTests.swift; sourceTree = "<group>"; };
+		E49847571B5595AA009532E6 /* LBInstallationTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LBInstallationTests.swift; sourceTree = "<group>"; };
 		E4C9BC2F1AD6F9C800D70046 /* LoopBack.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = LoopBack.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		E4C9BC321AD6F9C800D70046 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		E4C9BC331AD6F9C800D70046 /* LoopBackOSX.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = LoopBackOSX.h; sourceTree = "<group>"; };
@@ -761,6 +763,7 @@
 				E486D9B51AF42350003DC70D /* LBModelTests.swift */,
 				E486D9B61AF42350003DC70D /* LBUserTests.swift */,
 				E44CB6D91AF4413B00769433 /* LBModelSubclassingTests.swift */,
+				E49847571B5595AA009532E6 /* LBInstallationTests.swift */,
 				E486D97C1AF41DF8003DC70D /* Supporting Files */,
 			);
 			path = LoopBackSwiftTests;
@@ -1305,6 +1308,7 @@
 				E486D9B71AF42350003DC70D /* LBModelTests.swift in Sources */,
 				E486D9B81AF42350003DC70D /* LBUserTests.swift in Sources */,
 				E44CB6DA1AF4413B00769433 /* LBModelSubclassingTests.swift in Sources */,
+				E49847581B5595AA009532E6 /* LBInstallationTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
