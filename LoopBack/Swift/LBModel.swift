@@ -12,7 +12,7 @@ import Foundation
 public class LBModel: SLObject, Printable {
 
     /** All Models have a numerical `id` field. */
-    public private( set ) var id:AnyObject?
+    public private( set ) var id:AnyObject? = nil
     private( set ) var overflow = Dictionary<String, AnyObject>()
 
     public subscript( Tk: String ) -> AnyObject! {
@@ -73,9 +73,10 @@ public class LBModel: SLObject, Printable {
     }
 
     public func save( success:() -> (), failure:( NSError! ) -> () ) {
-        var methodToInvoke = id != nil ? "save": "create"
+        let methodToInvoke = id != nil ? "save": "create"
+        let parameters = toDictionary() as [NSObject : AnyObject]
 
-        invokeMethod( methodToInvoke, parameters: toDictionary() as [NSObject : AnyObject], success: { ( value ) -> Void in
+        invokeMethod( methodToInvoke, parameters: parameters, success: { ( value ) -> Void in
             self.id = value["id"]
             success()
         }, failure: failure )
