@@ -43,7 +43,7 @@ public class LBInstallation : LBModel {
     //
     // The current badge
     //
-    var badge:NSNumber?
+    var badge:Int?
     
     //
     // An array of topic names that the device subscribes to
@@ -85,7 +85,7 @@ public class LBInstallation : LBModel {
     }
     
     public static func registerDevice(device:LBInstallation,
-        success:(value:LBInstallation) -> (),
+        success:(value:AnyObject) -> (),
         failure:(NSError!) -> ()) -> () {
         device.save({ () -> () in
             println("LBInstallation: Successfully saved \(device)")
@@ -110,16 +110,16 @@ public class LBInstallation : LBModel {
     // @param success The success callback block for device registration
     // @param failure The failure callback block for device registration
     //
-    public static func registerDevice(#adapter:LBRESTAdapter,
+    public class func registerDevice(#adapter:LBRESTAdapter,
         deviceToken:NSData!,
         registrationId:String?,
         appId:String,
         appVersion:String,
         userId:String,
-        badge:NSNumber!,
+        badge:Int,
         subscriptions:[String],
-        success:(value:LBInstallation) -> (),
-        failure:( NSError! ) -> ()) {
+        success:(value:AnyObject) -> (),
+        failure:( NSError! ) -> ()) -> () {
             let hexToken = LBInstallation.deviceToken(data:deviceToken)
             let repository = adapter.repositoryWithClass(LBInstallationRepository.self)
             
