@@ -12,7 +12,7 @@ import Foundation
 public class LBModel: SLObject, Printable {
 
     /** All Models have a numerical `id` field. */
-    public private( set ) var id:AnyObject?
+    public private( set ) var id:AnyObject? = nil
     private( set ) var overflow = Dictionary<String, AnyObject>()
 
     public subscript( Tk: String ) -> AnyObject! {
@@ -73,9 +73,10 @@ public class LBModel: SLObject, Printable {
     }
 
     public func save( success:() -> (), failure:( NSError! ) -> () ) {
-        var methodToInvoke = id != nil ? "save": "create"
+        let methodToInvoke = id != nil ? "save": "create"
+        let parameters = toDictionary() as [NSObject : AnyObject]
 
-        invokeMethod( methodToInvoke, parameters: toDictionary() as [NSObject : AnyObject], success: { ( value ) -> Void in
+        invokeMethod( methodToInvoke, parameters: parameters, success: { ( value ) -> Void in
             self.id = value["id"]
             success()
         }, failure: failure )
@@ -199,24 +200,6 @@ public class LBModelRepository : SLRepository {
             
             }, failure:failure )
     }
-    
-    public func findOne(parameters:[String:AnyObject], success:( LBModel ) -> (), failure: ( NSError! ) -> () ) {
-        invokeStaticMethod( "all", parameters: parameters, success: { ( value ) -> Void in
-            
-            
-            assert( value is [AnyObject], "Received non-Array: \( value )" )
-            let tmp:[AnyObject] = value as! [AnyObject]
-            var val : AnyObject?
-            if value.count > 0 {
-                success( self.modelWithDictionary( value[0] as! NSDictionary ) )
-            } else {
-                success( self.modelWithDictionary( NSDictionary() ) )
-            }
-            
-            
-            }, failure:failure )
-    }
-    
 }
 
 
