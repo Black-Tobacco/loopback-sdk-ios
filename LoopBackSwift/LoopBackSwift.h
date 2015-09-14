@@ -14,6 +14,7 @@
 #import "SLRemotingUtils.h"
 #import "SLRESTAdapter.h"
 #import "SLRESTContract.h"
+#import "SLAFHTTPClient.h"
 #import "SLAFHTTPRequestOperationLogger.h"
 
 //! Project version number for LoopBackSwift.
