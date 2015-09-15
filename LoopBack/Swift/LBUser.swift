@@ -62,32 +62,22 @@ public class LBUserRepository: LBModelRepository {
             adapter.accessToken = accessToken.id as? String
             self.currentUserId = accessToken.userId
             success(accessToken)
-            
             }, failure:failure )
     }
     
     func logout(success: () -> (), failure: ( NSError! ) -> () ) {
-        
         invokeStaticMethod( "logout", parameters: nil, success: { (value) -> Void in
-            
-            
-            //assert( value is NSDictionary, "Received non-Dictionary: \( value )" )
             let adapter = self.adapter as! LBRESTAdapter
             adapter.accessToken = nil
             self.currentUserId = nil
             self.accessTokenRepository == nil
-            
             success()
-            
             }, failure:failure )
     }
     
     func reset(email: String!, success: () -> (), failure: ( NSError! ) -> () ) {
-        
         invokeStaticMethod( "reset", parameters: ["email":email], success: { (value) -> Void in
-            
             success()
-            
             }, failure:failure )
     }
 
