@@ -36,21 +36,21 @@ public class LBUserRepository: LBModelRepository {
         return contract
     }
     
-    public func createUser(#email:String, password: String, dictionary: Dictionary<NSObject, AnyObject>) -> LBUser {
+    public func createUser(email email:String, password: String, dictionary: Dictionary<NSObject, AnyObject>) -> LBUser {
         let user = LBUser(repository: self, parameters: dictionary)
         user.email = email
         user.password = password
         return user
     }
     
-    public func createUser(#email:String, password: String) -> LBUser {
+    public func createUser(email email:String, password: String) -> LBUser {
         let user = LBUser(repository: self, parameters: nil)
         user.email = email
         user.password = password
         return user
     }
     
-    func login(#email:String , password: String, success: (LBAccessToken) -> (), failure: ( NSError! ) -> () ) {
+    func login(email email:String , password: String, success: (LBAccessToken) -> (), failure: ( NSError! ) -> () ) {
         invokeStaticMethod( "login", parameters: [ "email": email, "password": password ], success: { [unowned self]( value ) -> Void in
             assert( value is NSDictionary, "Received non-Dictionary: \( value )" )
             let adapter = self.adapter as! LBRESTAdapter
@@ -81,7 +81,7 @@ public class LBUserRepository: LBModelRepository {
             }, failure:failure )
     }
 
-    public func userByLogin(#email:String, password: String, success: (LBUser) -> (), failure: ( NSError! ) -> () ) {
+    public func userByLogin(email email:String, password: String, success: (LBUser) -> (), failure: ( NSError! ) -> () ) {
         login(email: email, password: password, success: { (token) -> () in
             self.findById(token.userId, success: { (user) -> () in
                 self.cachedCurrentUser = user as? LBUser

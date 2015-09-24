@@ -66,7 +66,7 @@ public class LBInstallation : LBModel {
     // @param token The device token in NSData type
     // @return The device token in NSString type
     //
-    public static func deviceToken(#data:NSData!) -> String {
+    public static func deviceToken(data data:NSData!) -> String {
         var array:[UInt32] = [UInt32](count: data.length, repeatedValue: 0)
         data.getBytes(&array, length:data.length)
         
@@ -88,11 +88,11 @@ public class LBInstallation : LBModel {
         success:(value:AnyObject) -> (),
         failure:(NSError!) -> ()) -> () {
         device.save({ () -> () in
-            println("LBInstallation: Successfully saved \(device)")
+            print("LBInstallation: Successfully saved \(device)")
             success(value: device)
         },
         failure:{ (error) -> () in
-            println("LBInstallation: Failed to save \(device) with \(error)")
+            print("LBInstallation: Failed to save \(device) with \(error)")
             failure(error)
         })
     }
@@ -110,7 +110,7 @@ public class LBInstallation : LBModel {
     // @param success The success callback block for device registration
     // @param failure The failure callback block for device registration
     //
-    public class func registerDevice(#adapter:LBRESTAdapter,
+    public class func registerDevice(adapter adapter:LBRESTAdapter,
         deviceToken:NSData!,
         registrationId:String?,
         appId:String,

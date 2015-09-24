@@ -50,12 +50,12 @@ public class LBPushNotification {
     public class func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> LBPushNotification? {
         if (application.respondsToSelector(Selector("registerUserNotificationSettings:"))) {
             // iOS 8 or later
-            let types = UIUserNotificationType.Badge | UIUserNotificationType.Sound | UIUserNotificationType.Alert
+            let types: UIUserNotificationType = [UIUserNotificationType.Badge, UIUserNotificationType.Sound, UIUserNotificationType.Alert]
             let settings = UIUserNotificationSettings(forTypes:types, categories:nil)
             application.registerUserNotificationSettings(settings)
             application.registerForRemoteNotifications()
         } else {
-            let types = UIRemoteNotificationType.Badge | UIRemoteNotificationType.Sound | UIRemoteNotificationType.Alert
+            let types: UIRemoteNotificationType = [UIRemoteNotificationType.Badge, UIRemoteNotificationType.Sound, UIRemoteNotificationType.Alert]
             application.registerForRemoteNotificationTypes(types)
         }
         
@@ -95,7 +95,7 @@ public class LBPushNotification {
     * @param failure The failure callback block
     */
     public class func application(application: UIApplication, didRegisterForRemoteNotifications deviceToken:NSData!, adapter: LBRESTAdapter, userId: String, subscriptions: [String], success:(value:AnyObject) -> (), failure:( NSError! )->()) -> () {
-        println("My token is: \(deviceToken)")
+        print("My token is: \(deviceToken)")
         
         let path = NSBundle.mainBundle().bundlePath.stringByAppendingPathComponent("Settings.plist")
         let settings:[String: AnyObject] = NSDictionary(contentsOfFile:path) as! [String: AnyObject]
@@ -117,7 +117,7 @@ public class LBPushNotification {
     * Handle failure to receive device token
     */
     public class func application(application: UIApplication, didFailToRegisterForRemoteNotifications error:NSError) {
-        println("Failed to get token, error: \(error)")
+        print("Failed to get token, error: \(error)")
     }
     
     /**

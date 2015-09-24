@@ -1041,6 +1041,8 @@
 		B3D220EF17722AE800B7CB63 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
+				LastSwiftMigration = 0700;
+				LastSwiftUpdateCheck = 0700;
 				LastUpgradeCheck = 0610;
 				ORGANIZATIONNAME = StrongLoop;
 				TargetAttributes = {
