@@ -9,7 +9,7 @@
 import Foundation
 
 
-public class LBModel: SLObject, Printable {
+public class LBModel: SLObject, CustomStringConvertible {
 
     /** All Models have a numerical `id` field. */
     public private( set ) var id:AnyObject? = nil
@@ -53,11 +53,11 @@ public class LBModel: SLObject, Printable {
         var propertiesCount : CUnsignedInt = 0
         let propertiesInAClass = class_copyPropertyList( object_getClass( self ), &propertiesCount )
 
-        var z = Int( propertiesCount )
+        let z = Int( propertiesCount )
         var i = 0
 
         for i = 0; i < z; i++ {
-            var property = propertiesInAClass[i]
+            let property = propertiesInAClass[i]
             let propertyName = NSString( CString: property_getName( property ), encoding: NSUTF8StringEncoding )
 
             if propertyName != nil {
@@ -114,7 +114,7 @@ public class LBModelRepository : SLRepository {
     }
 
     func contract() -> SLRESTContract {
-        var contract = SLRESTContract()
+        let contract = SLRESTContract()
 
         contract.addItem( SLRESTContractItem( pattern: "/\( className )", verb:"POST" ), forMethod: "\( className ).prototype.create" )
         contract.addItem( SLRESTContractItem( pattern: "/\( className )/:id", verb:"PUT" ), forMethod: "\( className ).prototype.save" )
@@ -126,9 +126,9 @@ public class LBModelRepository : SLRepository {
     }
 
     public func modelWithDictionary( dictionary:NSDictionary ) -> LBModel {
-        var model:LBModel = self.modelClass!( repository:self, parameters:dictionary as Dictionary<NSObject, AnyObject> )
+        let model:LBModel = self.modelClass!.init( repository:self, parameters:dictionary as Dictionary<NSObject, AnyObject> )
 
-        var overflowDictionary:NSMutableDictionary! = ( model.overflow as NSDictionary ).mutableCopy() as! NSMutableDictionary
+        let overflowDictionary:NSMutableDictionary! = ( model.overflow as NSDictionary ).mutableCopy() as! NSMutableDictionary
         overflowDictionary.addEntriesFromDictionary( dictionary as [NSObject : AnyObject] )
 
         let overflowReplacementDictionary = overflowDictionary as Dictionary
