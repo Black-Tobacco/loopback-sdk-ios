@@ -50,10 +50,14 @@ public class LBPushNotification {
     public class func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> LBPushNotification? {
         if (application.respondsToSelector(Selector("registerUserNotificationSettings:"))) {
             // iOS 8 or later
-            let types: UIUserNotificationType = [UIUserNotificationType.Badge, UIUserNotificationType.Sound, UIUserNotificationType.Alert]
-            let settings = UIUserNotificationSettings(forTypes:types, categories:nil)
-            application.registerUserNotificationSettings(settings)
-            application.registerForRemoteNotifications()
+            if #available(iOS 8.0, *) {
+                let types: UIUserNotificationType = [UIUserNotificationType.Badge, UIUserNotificationType.Sound, UIUserNotificationType.Alert]
+                let settings = UIUserNotificationSettings(forTypes:types, categories:nil)
+                application.registerUserNotificationSettings(settings)
+                application.registerForRemoteNotifications()
+            } else {
+                // TODO: Fallback on earlier versions
+            }
         } else {
             let types: UIRemoteNotificationType = [UIRemoteNotificationType.Badge, UIRemoteNotificationType.Sound, UIRemoteNotificationType.Alert]
             application.registerForRemoteNotificationTypes(types)
