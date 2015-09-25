@@ -59,9 +59,9 @@ class LBInstallationTests : XCTestCase {
             badge: 1,
             subscriptions: [],
             success: { (model) -> () in
-                println("Completed with \(model.id)")
+                print("Completed with \(model.id)")
                 LBInstallationTests.lastId = (model.id as? NSNumber)?.stringValue
-                println("converted: \(LBInstallationTests.lastId)")
+                print("converted: \(LBInstallationTests.lastId)")
                 XCTAssertNotNil(model.id, "Invalid id")
                 expectation.fulfill()
             },

@@ -51,7 +51,7 @@ class LBModelSubclassingTests: XCTestCase {
         let expectation = self.expectationWithDescription("testCreate")
         model.save({
             () -> () in
-            println("Completed with \(model.id)")
+            print("Completed with \(model.id)")
             LBModelTests.lastId = model.id as! NSNumber
             XCTAssertNotNil(model.id, "Invalid id")
             expectation.fulfill()

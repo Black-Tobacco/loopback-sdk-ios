@@ -9,7 +9,7 @@
 import Foundation
 
 
-public class LBModel: SLObject, CustomStringConvertible {
+public class LBModel: SLObject {
 
     /** All Models have a numerical `id` field. */
     public private( set ) var id:AnyObject? = nil
