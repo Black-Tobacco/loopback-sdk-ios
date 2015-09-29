@@ -101,7 +101,7 @@ public class LBPushNotification {
     public class func application(application: UIApplication, didRegisterForRemoteNotifications deviceToken:NSData!, adapter: LBRESTAdapter, userId: String, subscriptions: [String], success:(value:AnyObject) -> (), failure:( NSError! )->()) -> () {
         print("My token is: \(deviceToken)")
         
-        let path = NSBundle.mainBundle().bundlePath + "Settings.plist"
+        let path = NSBundle.mainBundle().bundlePath + "/Settings.plist"
         let settings:[String: AnyObject] = NSDictionary(contentsOfFile:path) as! [String: AnyObject]
         let badge = application.applicationIconBadgeNumber
         
