@@ -48,17 +48,19 @@ public class LBPushNotification {
     * @return The offline notification
     */
     public class func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> LBPushNotification? {
-        if (application.respondsToSelector(Selector("registerUserNotificationSettings:"))) {
-            
-            let types: UIUserNotificationType = [UIUserNotificationType.Badge, UIUserNotificationType.Sound, UIUserNotificationType.Alert]
-            let settings = UIUserNotificationSettings(forTypes:types, categories:nil)
-            application.registerUserNotificationSettings(settings)
-            application.registerForRemoteNotifications()
+//        if (application.respondsToSelector(Selector("registerUserNotificationSettings:"))) {
+        
+        let types: UIUserNotificationType = [UIUserNotificationType.Badge, UIUserNotificationType.Sound, UIUserNotificationType.Alert]
+        let settings = UIUserNotificationSettings(forTypes:types, categories:nil)
+        application.registerUserNotificationSettings(settings)
+        application.registerForRemoteNotifications()
 
-        } else {
-            let types: UIRemoteNotificationType = [UIRemoteNotificationType.Badge, UIRemoteNotificationType.Sound, UIRemoteNotificationType.Alert]
-            application.registerForRemoteNotificationTypes(types)
-        }
+        
+        // OLD Fallback code for earlier versions than 8.0
+//        } else {
+//            let types: UIRemoteNotificationType = [UIRemoteNotificationType.Badge, UIRemoteNotificationType.Sound, UIRemoteNotificationType.Alert]
+//            application.registerForRemoteNotificationTypes(types)
+//        }
         
         // Handle APN on Terminated state, app launched because of APN
         if let payload = launchOptions?[UIApplicationLaunchOptionsRemoteNotificationKey] as? [NSObject: AnyObject] {
