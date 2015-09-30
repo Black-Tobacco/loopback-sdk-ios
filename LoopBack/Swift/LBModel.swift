@@ -139,7 +139,7 @@ public class LBModelRepository : SLRepository {
             //var attributeType = value.attributeType
             
            
-            if let p : AnyObject? = overflowDictionary.objectForKey(keyName) {
+            if let _ : AnyObject? = overflowDictionary.objectForKey(keyName) {
                 if !(value is NSNull) {
                     
                     model.setValue(value, forKey: keyName)
@@ -188,8 +188,8 @@ public class LBModelRepository : SLRepository {
         invokeStaticMethod( "all", parameters: parameters, success: { ( value ) -> Void in
             
             assert( value is [AnyObject], "Received non-Array: \( value )" )
-            let tmp:[AnyObject] = value as! [AnyObject]
-            var val : AnyObject?
+//            let tmp:[AnyObject] = value as! [AnyObject]
+//            var val : AnyObject?
             if value.count > 0 {
                 success( self.modelWithDictionary( value[0] as! NSDictionary ) )
             } else {
